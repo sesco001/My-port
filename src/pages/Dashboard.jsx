@@ -7,7 +7,7 @@ import {
   FaJsSquare,
   FaPython,
   FaNodeJs,
-  FaWhatsapp, // ✅ add this import
+  FaWhatsapp,
 } from "react-icons/fa";
 
 export default function Dashboard() {
@@ -27,7 +27,8 @@ export default function Dashboard() {
   useEffect(() => {
     if (navigator.getBattery) {
       navigator.getBattery().then((batteryInfo) => {
-        const updateBattery = () => setBattery(`${Math.round(batteryInfo.level * 100)}%`);
+        const updateBattery = () =>
+          setBattery(`${Math.round(batteryInfo.level * 100)}%`);
         updateBattery();
         batteryInfo.addEventListener("levelchange", updateBattery);
       });
@@ -36,13 +37,14 @@ export default function Dashboard() {
     }
   }, []);
 
-  // ✅ Typing Animation
+  // ✅ Typing Animation (added your line)
   useEffect(() => {
     const typed = new Typed(".typing", {
       strings: [
         "Welcome to Makamesco Home 🌍",
         "Where We Change Ideas into Reality 💡",
         "Let's Build. Let's Grow. Let's Create. 🚀",
+        "Coded with ❤️ by Meshack Matheka 💚",
       ],
       typeSpeed: 50,
       backSpeed: 25,
@@ -67,10 +69,12 @@ export default function Dashboard() {
 
         <div className="mt-6 flex flex-col md:flex-row justify-center items-center gap-6 text-gray-400">
           <p>
-            🌐 IP Address: <span className="text-green-400 font-semibold">{ip}</span>
+            🌐 IP Address:{" "}
+            <span className="text-green-400 font-semibold">{ip}</span>
           </p>
           <p>
-            🔋 Battery: <span className="text-green-400 font-semibold">{battery}</span>
+            🔋 Battery:{" "}
+            <span className="text-green-400 font-semibold">{battery}</span>
           </p>
         </div>
       </div>
