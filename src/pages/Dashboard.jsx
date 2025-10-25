@@ -1,5 +1,7 @@
 import React, { useEffect, useState, useRef } from "react";
 import Typed from "typed.js";
+import { Link } from "react-router-dom";
+
 import {
   FaHtml5,
   FaCss3Alt,
@@ -93,19 +95,19 @@ export default function Dashboard() {
 
       {/* Action Buttons */}
       <div className="text-center mb-16">
-        <button
-          onClick={() => (window.location.href = "/projects")}
-          className="bg-green-600 hover:bg-green-700 text-white px-8 py-3 rounded-full font-semibold mx-3 shadow-md hover:shadow-green-600/50 transition transform hover:scale-105"
-        >
-          Explore Our Services
-        </button>
-        <button
-          onClick={() => (window.location.href = "/profile")}
-          className="bg-green-600 hover:bg-green-700 text-white px-8 py-3 rounded-full font-semibold mx-3 shadow-md hover:shadow-green-600/50 transition transform hover:scale-105"
-        >
-          Know more about us
-        </button>
-      </div>
+  <Link
+    to="/projects"
+    className="bg-green-600 hover:bg-green-700 text-white px-8 py-3 rounded-full font-semibold mx-3 shadow-md hover:shadow-green-600/50 transition transform hover:scale-105 inline-block"
+  >
+    Explore Our Services
+  </Link>
+  <Link
+    to="/profile"
+    className="bg-green-600 hover:bg-green-700 text-white px-8 py-3 rounded-full font-semibold mx-3 shadow-md hover:shadow-green-600/50 transition transform hover:scale-105 inline-block"
+  >
+    Know more about us
+  </Link>
+</div>
 
       {/* Features Section */}
       <section ref={featuresRef} className="mt-16">
