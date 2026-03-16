@@ -1,0 +1,186 @@
+import React, { useEffect, useState } from "react";
+import Typed from "typed.js";
+import { Link } from "react-router-dom";
+import { FaRobot, FaBook, FaMusic, FaServer, FaChartLine, FaArrowRight, FaCode, FaPaintBrush, FaShieldAlt, FaRocket } from "react-icons/fa";
+
+// Reusable Components
+const StatCard = ({ label, value, color }) => (
+  <div className="glass-card p-6 rounded-2xl relative overflow-hidden group hover:-translate-y-1 transition-transform">
+    <div className={`absolute -right-6 -top-6 w-24 h-24 ${color} opacity-10 rounded-full blur-xl group-hover:scale-150 transition-transform duration-500`} />
+    <h3 className="text-gray-500 dark:text-gray-400 text-xs font-bold uppercase tracking-widest mb-1">{label}</h3>
+    <p className="text-3xl md:text-4xl font-bold text-gray-900 dark:text-white">{value}</p>
+  </div>
+);
+
+const AppShortcut = ({ name, icon, link, color, label }) => (
+  <a href={link} target="_blank" rel="noreferrer" className="group relative block h-full">
+    <div className={`absolute inset-0 ${color} opacity-0 group-hover:opacity-20 blur-xl rounded-2xl transition-opacity duration-500`} />
+    <div className="glass-card h-full p-6 rounded-2xl flex flex-col items-start justify-between hover:border-green-500/30 transition-all duration-300">
+      <div className={`p-3 rounded-xl ${color.replace('bg-', 'bg-').replace('500', '500/10')} ${color.replace('bg-', 'text-')}`}>
+        <span className="text-2xl">{icon}</span>
+      </div>
+      <div>
+        <h4 className="font-bold text-gray-900 dark:text-white text-lg mt-4">{name}</h4>
+        <p className="text-xs text-gray-500 dark:text-gray-400 mt-1">{label}</p>
+      </div>
+      <div className="w-full mt-4 flex justify-between items-center opacity-0 group-hover:opacity-100 transition-opacity translate-y-2 group-hover:translate-y-0">
+        <span className="text-xs font-bold uppercase tracking-wider text-gray-400">Open App</span>
+        <FaArrowRight className="text-sm" />
+      </div>
+    </div>
+  </a>
+);
+
+export default function Dashboard() {
+  const [ip, setIp] = useState("Loading...");
+  const [battery, setBattery] = useState("--%");
+
+  useEffect(() => {
+    fetch("https://api.ipify.org?format=json").then(res => res.json()).then(data => setIp(data.ip)).catch(() => setIp("Offline"));
+    if (navigator.getBattery) navigator.getBattery().then(b => setBattery(`${Math.round(b.level * 100)}%`));
+    
+    const typed = new Typed(".typing-text", {
+      strings: ["Software Engineer.", "UI/UX Designer.", "Full Stack Developer.", "Tech Innovator."],
+      typeSpeed: 50, backSpeed: 30, loop: true
+    });
+    return () => typed.destroy();
+  }, []);
+
+  return (
+    <div className="min-h-screen pt-28 pb-12 px-4 md:px-8 bg-hero-pattern overflow-hidden">
+      
+      {/* 🌟 Background Glows (The "Hype") */}
+      <div className="fixed top-20 left-[-10%] w-[500px] h-[500px] bg-green-500/20 rounded-full blur-[120px] pointer-events-none animate-pulse-glow" />
+      <div className="fixed bottom-0 right-[-10%] w-[600px] h-[600px] bg-blue-600/10 rounded-full blur-[120px] pointer-events-none" />
+
+      <div className="max-w-7xl mx-auto relative z-10">
+        
+        {/* 🦸 HERO SECTION */}
+        <div className="flex flex-col lg:flex-row items-center justify-between mb-20 gap-10">
+          <div className="lg:w-1/2 text-center lg:text-left">
+            <div className="inline-block px-4 py-2 rounded-full bg-green-500/10 border border-green-500/20 text-green-500 font-bold text-sm mb-6 animate-float">
+              ✨ Available for new projects
+            </div>
+            <h1 className="text-5xl md:text-7xl font-bold text-gray-900 dark:text-white mb-6 leading-tight">
+              Building the <br/>
+              <span className="text-transparent bg-clip-text bg-gradient-to-r from-green-400 to-blue-500">Digital Future.</span>
+            </h1>
+            <div className="text-xl md:text-2xl text-gray-600 dark:text-gray-300 h-8 mb-8 font-light">
+              I am a <span className="typing-text text-green-500 font-semibold"></span>
+            </div>
+            <div className="flex flex-col sm:flex-row gap-4 justify-center lg:justify-start">
+              <Link to="/services" className="px-8 py-4 bg-green-600 hover:bg-green-700 text-white rounded-xl font-bold text-lg shadow-lg shadow-green-500/30 transition transform hover:-translate-y-1">
+                View Services
+              </Link>
+              <Link to="/projects" className="px-8 py-4 glass-card text-gray-900 dark:text-white rounded-xl font-bold text-lg hover:bg-gray-100 dark:hover:bg-white/10 transition">
+                My Portfolio
+              </Link>
+            </div>
+          </div>
+          
+          {/* HUD / Stats Grid */}
+          <div className="lg:w-1/2 w-full grid grid-cols-2 gap-4">
+            <StatCard label="Experience" value="5+ Years" color="bg-blue-500" />
+            <StatCard label="Projects" value="120+" color="bg-green-500" />
+            <StatCard label="Clients" value="50+" color="bg-purple-500" />
+            <div className="glass-card p-6 rounded-2xl flex flex-col justify-center">
+              <span className="text-xs text-gray-500 uppercase tracking-widest font-bold">System Status</span>
+              <div className="flex items-center gap-2 mt-2">
+                 <div className="w-2 h-2 rounded-full bg-green-500 animate-pulse"></div>
+                 <span className="font-mono text-sm text-gray-700 dark:text-gray-300">Online: {ip}</span>
+              </div>
+              <div className="flex items-center gap-2 mt-1">
+                 <div className="w-2 h-2 rounded-full bg-yellow-500"></div>
+                 <span className="font-mono text-sm text-gray-700 dark:text-gray-300">Bat: {battery}</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        {/* 📢 PREMIUM BANNER (SCHOLAR SECTION) */}
+        <div className="relative w-full p-1 rounded-3xl bg-gradient-to-r from-green-500 via-emerald-500 to-blue-600 mb-20 shadow-2xl shadow-green-900/50 transform hover:scale-[1.01] transition-transform">
+          <div className="bg-white dark:bg-[#0a0a0a] rounded-[20px] p-8 md:p-12 flex flex-col md:flex-row items-center justify-between gap-8 relative overflow-hidden">
+             <div className="absolute top-0 right-0 w-96 h-96 bg-green-500/20 rounded-full blur-3xl pointer-events-none" />
+             <div className="z-10 text-center md:text-left">
+               <h2 className="text-3xl md:text-4xl font-bold text-gray-900 dark:text-white mb-4">Are you a Scholar? 🎓</h2>
+               <p className="text-gray-600 dark:text-gray-300 text-lg max-w-xl">
+                 Unlock premium academic tools designed to boost your productivity. Access the <b>AI Humaniser</b> and <b>Kamusi</b> instantly.
+               </p>
+             </div>
+             
+             {/* 👇 ADDED LINKS HERE 👇 */}
+             <div className="flex flex-wrap gap-4 z-10 justify-center md:justify-end">
+               <a href="https://humanise.makamesco-tech.co.ke/" target="_blank" rel="noreferrer" className="flex items-center gap-2 px-6 py-3 bg-gray-900 dark:bg-white text-white dark:text-black font-bold rounded-xl hover:shadow-lg transition hover:scale-105">
+                 <FaRobot /> AI Humaniser
+               </a>
+               <a href="https://kamusi.makamesco-tech.co.ke/" target="_blank" rel="noreferrer" className="flex items-center gap-2 px-6 py-3 bg-blue-600 text-white font-bold rounded-xl hover:shadow-lg transition hover:scale-105">
+                 <FaBook /> Kamusi
+               </a>
+             </div>
+             
+          </div>
+        </div>
+
+        {/* 📱 APP BENTO GRID */}
+        <div className="mb-20">
+          <div className="flex items-center justify-between mb-8">
+            <h3 className="text-2xl font-bold text-gray-900 dark:text-white flex items-center gap-2">
+              <FaRocket className="text-green-500" /> Project Ecosystem
+            </h3>
+            <Link to="/projects" className="text-sm font-bold text-green-500 hover:text-green-400 flex items-center gap-1">
+              View All <FaArrowRight />
+            </Link>
+          </div>
+          
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+            {/* Featured Large Card */}
+            <div className="col-span-1 sm:col-span-2 row-span-2 glass-card p-8 rounded-3xl relative overflow-hidden group">
+               <div className="absolute inset-0 bg-gradient-to-br from-green-600/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity" />
+               <h4 className="text-2xl font-bold text-gray-900 dark:text-white mb-2">Makamesco Host</h4>
+               <p className="text-gray-600 dark:text-gray-300 mb-6 max-w-sm">Premium high-speed web hosting for your business. 99.9% Uptime guarantee.</p>
+               <a href="https://digitexwebhosting.com" target="_blank" rel="noreferrer" className="px-6 py-3 bg-green-600 text-white rounded-xl font-bold inline-block shadow-lg hover:bg-green-700 transition">Get Hosting</a>
+               <FaServer className="absolute bottom-[-20px] right-[-20px] text-[150px] text-gray-200 dark:text-white/5 group-hover:scale-110 transition-transform duration-500" />
+            </div>
+
+            <AppShortcut name="AI Humaniser" label="Academic Tool" icon={<FaRobot />} link="https://humanise.makamesco-tech.co.ke/" color="bg-purple-500" />
+            <AppShortcut name="Kamusi" label="Smart Dictionary" icon={<FaBook />} link="https://kamusi.makamesco-tech.co.ke/" color="bg-blue-500" />
+            <AppShortcut name="Music" label="Stream & Download" icon={<FaMusic />} link="https://go.sescotechsolutions.xyz/" color="bg-pink-500" />
+            <AppShortcut name="Boost" label="SMM Panel" icon={<FaChartLine />} link="https://makamescodigitalsolutions.com" color="bg-green-500" />
+          </div>
+        </div>
+
+        {/* 🛡️ WHY CHOOSE US */}
+        <div className="mb-20">
+           <h3 className="text-2xl font-bold text-center text-gray-900 dark:text-white mb-12">Why Work With Makamesco?</h3>
+           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+              {[
+                { title: "Modern Tech Stack", desc: "Built with React, Node.js, and AI integration for future-proof solutions.", icon: <FaCode /> },
+                { title: "Fast Performance", desc: "Optimized for speed and SEO to ensure your site ranks #1.", icon: <FaRocket /> },
+                { title: "Secure & Reliable", desc: "Bank-grade security standards for all applications and databases.", icon: <FaShieldAlt /> }
+              ].map((item, i) => (
+                <div key={i} className="glass-card p-8 rounded-2xl text-center hover:border-green-500/50 transition duration-300">
+                  <div className="w-16 h-16 mx-auto bg-gray-100 dark:bg-white/5 rounded-full flex items-center justify-center text-3xl text-green-500 mb-6">
+                    {item.icon}
+                  </div>
+                  <h4 className="text-xl font-bold text-gray-900 dark:text-white mb-3">{item.title}</h4>
+                  <p className="text-gray-600 dark:text-gray-400">{item.desc}</p>
+                </div>
+              ))}
+           </div>
+        </div>
+
+        {/* 💬 CTA FOOTER */}
+        <div className="text-center py-20 border-t border-gray-200 dark:border-white/10">
+          <h2 className="text-4xl font-bold text-gray-900 dark:text-white mb-6">Ready to scale your business?</h2>
+          <p className="text-gray-600 dark:text-gray-400 mb-8 max-w-2xl mx-auto">
+            From custom software to mobile apps, we build solutions that drive growth. Let's create something amazing together.
+          </p>
+          <Link to="/services" className="px-10 py-4 bg-white dark:bg-green-600 text-green-600 dark:text-white border border-green-600 dark:border-transparent rounded-xl font-bold text-lg hover:shadow-2xl hover:scale-105 transition">
+            Start Your Project
+          </Link>
+        </div>
+
+      </div>
+    </div>
+  );
+}
